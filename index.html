@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biology for Engineers - Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f8f0; margin: 0; padding: 20px; }
+    .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #2e7d32; }
+    .question { font-size: 1.2em; margin: 20px 0; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    button { padding: 12px; margin: 5px 0; font-size: 1.1em; border: none; border-radius: 8px; cursor: pointer; }
+    .option { background: #e8f5e9; }
+    .option:hover { background: #c8e6c9; }
+    .correct { background: #81c784 !important; }
+    .wrong { background: #e57373 !important; }
+    #nextBtn, #submitBtn { background: #2e7d32; color: white; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧬 Biology for Engineers Quiz</h1>
+    <div id="quiz">
+      <h2 id="question-text"></h2>
+      <div class="options" id="options"></div>
+      <button id="nextBtn" style="display:none;">Next Question</button>
+      <button id="submitBtn" style="display:none;">Submit Quiz</button>
+    </div>
+    <div id="result" style="display:none; text-align:center;">
+      <h2>Your Score: <span id="score"></span>/<span id="total"></span></h2>
+      <button onclick="restartQuiz()">Restart Quiz</button>
+    </div>
+  </div>
+
+  <script>
+    // Paste your questions here (from PDFs)
+    const questions = [
+      {
+        question: "The nose of the redesigned Shinkanzen bullet train is inspired by",
+        options: ["Kingfisher beak", "Crane peak", "Owl Peak", "Herons peak"],
+        answer: 0
+      },
+      {
+        question: "Passive cooling in sky scrapers is inspired by",
+        options: ["Termite Mounds", "Earthwork Mounds", "Ant Mounts", "Spiro Mounds"],
+        answer: 0
+      },
+      // Add more questions from your PDFs here...
+      // Example:
+      {
+        question: "Protein produced by Bacillus thuringiensis which has insecticide property is",
+        options: ["Cry Protein", "Res Protein", "Try Protein", "Taf Protein"],
+        answer: 0
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("question-text").innerHTML = `${currentQuestion + 1}. ${q.question}`;
+      
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerHTML = option;
+        btn.onclick = () => checkAnswer(index);
+        optionsDiv.appendChild(btn);
+      });
+
+      document.getElementById("nextBtn").style.display = "none";
+    }
+
+    function checkAnswer(selected) {
+      const q = questions[currentQuestion];
+      const buttons = document.querySelectorAll(".option");
+
+      buttons.forEach((btn, i) => {
+        if (i === q.answer) btn.classList.add("correct");
+        if (i === selected && i !== q.answer) btn.classList.add("wrong");
+        btn.onclick = null;
+      });
+
+      if (selected === q.answer) score++;
+
+      document.getElementById("nextBtn").style.display = "block";
+    }
+
+    document.getElementById("nextBtn").onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    };
+
+    function showResult() {
+      document.getElementById("quiz").style.display = "none";
+      document.getElementById("result").style.display = "block";
+      document.getElementById("score").innerText = score;
+      document.getElementById("total").innerText = questions.length;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("quiz").style.display = "block";
+      document.getElementById("result").style.display = "none";
+      loadQuestion();
+    }
+
+    // Start the quiz
+    loadQuestion();
+  </script>
+</body>
+</html>
