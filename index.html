@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Biology Quiz</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Online Exam Portal</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h1>Biology Quiz</h1>
-
-<div id="start-screen">
-    <label>Enter number of questions:</label>
-    <input type="number" id="numQuestions" min="1" max="300">
-    <button onclick="startQuiz()">Start Quiz</button>
+<div class="header">
+    <h2>Online Examination</h2>
+    <div id="timer">Time: 10:00</div>
 </div>
 
-<div id="quiz-container" style="display:none;">
-    <h2 id="question"></h2>
+<div class="container">
 
-    <div id="options"></div>
+    <!-- Question Panel -->
+    <div class="quiz-box">
+        <div id="progress">Question 1 of 10</div>
+        <h3 id="question"></h3>
+        <div id="options"></div>
 
-    <button onclick="nextQuestion()">Next</button>
+        <div class="nav-buttons">
+            <button onclick="prevQuestion()">Previous</button>
+            <button onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div class="side-panel">
+        <h4>Questions</h4>
+        <div id="question-numbers"></div>
+        <button onclick="submitQuiz()">Submit</button>
+    </div>
+
 </div>
 
-<div id="result" style="display:none;">
-    <h2>Your Score: <span id="score"></span></h2>
-</div>
+<div id="result" class="result-box"></div>
 
 <script src="script.js"></script>
 </body>
